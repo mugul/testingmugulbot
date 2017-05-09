@@ -1,25 +1,56 @@
-var TelegramBot = require('node-telegram-bot-api');
+// var TelegramBot = require('node-telegram-bot-api');
 
-var token = '389085214:AAGjB1U46UCeuAiUn09hqDpBUEA-UIERR0s';
-// Setup polling way
-var bot = new TelegramBot(token, {polling: true});
+// var token = '389085214:AAGjB1U46UCeuAiUn09hqDpBUEA-UIERR0s';
+// // Setup polling way
+// var bot = new TelegramBot(token, {polling: true});
 
-// Matches /echo [whatever]
-bot.onText(/\/echo (.+)/, function (msg, match) {
-  var fromId = msg.from.id;
-  var resp = match[1];
-  bot.sendMessage(fromId, resp);
+// // Matches /echo [whatever]
+// bot.onText(/\/echo (.+)/, function (msg, match) {
+//   var fromId = msg.from.id;
+//   var resp = match[1];
+//   bot.sendMessage(fromId, resp);
+// });
+
+// // Any kind of message
+// bot.on('message', function (msg) {
+//   var chatId = msg.chat.id;
+//   // photo can be: a file path, a stream or a Telegram file_id
+//   var photo = 'cats.png';
+//   bot.sendPhoto(chatId, photo, {caption: 'Lovely kittens'});
+// });
+
+// bot.onText(/\/help/, function(msg, match) {
+//   var fromId = msg.from.id;
+//   bot.sendMessage(fromId, "This spectacular bot just have one single command.\n/insult - Insult you.");
+// });
+
+
+const TelegramBot = require('node-telegram-bot-api');
+
+// replace the value below with the Telegram token you receive from @BotFather
+const token = '389085214:AAGjB1U46UCeuAiUn09hqDpBUEA-UIERR0s';
+
+// Create a bot that uses 'polling' to fetch new updates
+const bot = new TelegramBot(token, {polling: true});
+
+// Matches "/echo [whatever]"
+bot.onText(/\/echo (.+)/, (msg, match) => {
+  // 'msg' is the received Message from Telegram
+  // 'match' is the result of executing the regexp above on the text content
+  // of the message
+
+  const chatId = msg.chat.id;
+  const resp = match[1]; // the captured "whatever"
+
+  // send back the matched "whatever" to the chat
+  bot.sendMessage(chatId, resp);
 });
 
-// Any kind of message
-bot.on('message', function (msg) {
-  var chatId = msg.chat.id;
-  // photo can be: a file path, a stream or a Telegram file_id
-  var photo = 'cats.png';
-  bot.sendPhoto(chatId, photo, {caption: 'Lovely kittens'});
-});
+// Listen for any kind of message. There are different kinds of
+// messages.
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
 
-bot.onText(/\/help/, function(msg, match) {
-  var fromId = msg.from.id;
-  bot.sendMessage(fromId, "This spectacular bot just have one single command.\n/insult - Insult you.");
+  // send a message to the chat acknowledging receipt of their message
+  bot.sendMessage(chatId, 'Received your message');
 });
