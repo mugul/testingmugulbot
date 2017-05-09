@@ -50,8 +50,8 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
   pool.getConnection(function(err,connection){
     if (err) {
       res.json({"code" : 100, "status" : "Error in connection database"});
-      return;
       bot.sendMessage(chatId, "code 100, status: Error in connection database");
+      return;
     }   
   
 
